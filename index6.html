@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Masonry Gallery with PhotoSwipe</title>
+
+<!-- PhotoSwipe CSS -->
+<link rel="stylesheet" href="https://unpkg.com/photoswipe@5/dist/photoswipe.css">
+
+<style>
+/* ------------------------------
+   MASONRY GALLERY
+------------------------------ */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: sans-serif;
+  background: #f5f5f5;
+  padding: 20px;
+}
+
+.masonry {
+  column-count: 3;
+  column-gap: 1rem;
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+.item {
+  break-inside: avoid;
+  margin-bottom: 1rem;
+}
+
+.item img {
+  width: 100%;
+  border-radius: 6px;
+  display: block;
+  cursor: zoom-in;
+}
+
+@media screen and (max-width: 1150px) {
+  .masonry {
+    column-count: 2;
+    max-width: 100%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<section class="gallery__container">
+
+<h1 style="text-align:center; margin-bottom:20px;">Masonry Layout with PhotoSwipe</h1>
+
+<div class="masonry" id="gallery">
+
+  <!-- No width/height needed — JS will auto-detect -->
+  <div class="item"><a href="image1.png"><img src="image1.png"></a></div>
+  <div class="item"><a href="image2.jpg"><img src="image2.jpg"></a></div>
+  <div class="item"><a href="image3.png"><img src="image3.png"></a></div>
+  <div class="item"><a href="image4.jpg"><img src="image4.jpg"></a></div>
+  <div class="item"><a href="image5.jpg"><img src="image5.jpg"></a></div>
+  <div class="item"><a href="image6.png"><img src="image6.png"></a></div>
+  <div class="item"><a href="image7.png"><img src="image7.png"></a></div>
+
+</div>
+
+</section>
+
+<!-- PhotoSwipe JS -->
+<script type="module">
+  import PhotoSwipeLightbox from "https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.min.js";
+
+  // Auto-detect image size for smooth animation
+  document.querySelectorAll("#gallery a").forEach(link => {
+    const img = link.querySelector("img");
+
+    const temp = new Image();
+    temp.src = img.src;
+
+    temp.onload = () => {
+      link.setAttribute("data-pswp-width", temp.naturalWidth);
+      link.setAttribute("data-pswp-height", temp.naturalHeight);
+      link.setAttribute("data-pswp-src", img.src);
+    };
+  });
+
+  const lightbox = new PhotoSwipeLightbox({
+    gallery: '#gallery',
+    children: 'a',
+    showHideAnimationType: 'zoom',
+    pswpModule: () => import("https://unpkg.com/photoswipe@5/dist/photoswipe.esm.min.js"),
+  });
+  
+  lightbox.init();
+</script>
+
+</body>
+</html>
+
